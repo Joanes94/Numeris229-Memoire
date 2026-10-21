@@ -1,0 +1,215 @@
+%--------------A VOTRE ATTENTION-------------%
+% Les étudiants en master qui disposent de plus de 3 chapitres dans leurs travaux peuvent en complèter
+% Les Membres doivent figurer dans la dernière version finale du mémoire après soutenance pour dépôt de mémoire
+
+\documentclass{ifri}
+\usepackage{titletoc}
+\usepackage{ragged2e}
+\usepackage{subcaption}
+\usepackage[numbers]{natbib}
+\justifying
+\setlength{\glsdescwidth}{0.65\textwidth}
+% \usepackage{lscape}
+
+\typeMemoire{Diplôme de Licence en Informatique}
+\optionFormation{Génie Logiciel}
+\etudiant{Yélian Joanès Domicov \textbf{AZON}}
+
+\titreDuMemoire{
+Conception et implémentation de Numeris229, une architecture logicielle pour un assistant conversationnel intelligent basé sur la génération augmentée par récupération (RAG) : cas du code du numérique en République du Bénin
+}
+
+\dateSoutenance{-}
+%\promo{2\up{ème}}
+\anneeScolaire{2026 - 2027}
+
+
+%%maitre de mémoire
+\encadrants{Armand \textbf{ACCROMBESSI}}
+
+% \jurys{
+% \begin{tabular}{llll}
+% ~ & ~ & ~ & ~
+% \end{tabular}
+% }
+
+
+\hypersetup{
+ pdftitle={--},
+ pdfauthor={--},
+ pdfsubject={--},
+ pdfkeywords={--} 
+ }
+
+\color{bookColor}
+
+%importation du glossaire
+\loadglsentries{glossaire_reduit}
+
+\begin{document}
+
+\pageDeGarde
+%\pageTitre
+
+\pagecolor{white}
+
+%% page vide
+%\thispagestyle{empty}\ \clearpage
+
+
+\selectlanguage{french}
+
+% sommaire
+\pagenumbering{roman}
+
+\setcounter{tocdepth}{0}
+\startlist{toc}
+\printlist{toc}{}{\chapter*{Sommaire}}
+\setcounter{tocdepth}{5}
+
+%% rdedicaces
+\include{0-dedicace}
+\newpage 
+
+%% remerciements
+\include{1-remerciements}
+\newpage 
+
+% Résume
+\include{2-resume}
+\newpage
+
+% ================= LISTE DES FIGURES =================
+\cleardoublepage
+\listoffigures
+\addcontentsline{toc}{chapter}{Liste des figures}
+
+
+% ================= LISTE DES TABLEAUX =================
+\cleardoublepage
+\listoftables
+\addcontentsline{toc}{chapter}{Liste des tableaux}
+
+
+% ================= LISTE DES ALGORITHMES =================
+\cleardoublepage
+\selectlanguage{french}
+\listofalgorithmes
+\addcontentsline{toc}{chapter}{Liste des algorithmes}
+
+
+% ================= LISTE DES ACRONYMES =================
+\cleardoublepage
+\chapter*{Liste des Acronymes}
+\addcontentsline{toc}{chapter}{Liste des acronymes}
+
+\begin{center}
+\begin{longtable}{p{3cm} p{11cm}}
+
+\textbf{ANSSI} & Agence Nationale de la Sécurité des Systèmes d'Information \\[0.4em]
+
+\textbf{APDP} & Autorité de Protection des Données Personnelles \\[0.4em]
+
+\textbf{API} & Application Programming Interface (Interface de Programmation d'Application) \\[0.4em]
+
+\textbf{CRIET} & Cour de Répression des Infractions Économiques et du Terrorisme \\[0.4em]
+
+\textbf{IA} & Intelligence Artificielle \\[0.4em]
+
+\textbf{JWT} & JSON Web Token (Jeton Web JSON sécurisé) \\[0.4em]
+
+\textbf{LLM} & Large Language Model (Grand Modèle de Langage) \\[0.4em]
+
+\textbf{NLP} & Natural Language Processing (Traitement Automatique du Langage Naturel) \\[0.4em]
+
+\textbf{RAG} & Retrieval-Augmented Generation (Génération Augmentée par Récupération) \\[0.4em]
+
+\textbf{TF-IDF} & Term Frequency - Inverse Document Frequency \\[0.4em]
+
+\textbf{UML} & Unified Modeling Language (Langage de Modélisation Unifié) \\[0.4em]
+
+\end{longtable}
+\end{center}
+
+\newpage
+
+% ================= GLOSSAIRE =================
+\cleardoublepage
+\chapter*{Glossaire}
+\addcontentsline{toc}{chapter}{Glossaire}
+
+\begin{description}
+
+\item[Code du Numérique]
+Cadre législatif unifié (Loi N° 2017-20 modifiée par la Loi N° 2020-35) régissant l'écosystème numérique, le commerce électronique, les données personnelles, la cybersécurité et les cyberinfractions en République du Bénin.
+
+\item[Cross-Encoder (Reranker)]
+Modèle neuronal qui évalue conjointement une question et un extrait de loi pour ré-ordonner les résultats documentaires avec une très grande précision sémantique.
+
+\item[Droit à l'effacement]
+Dispositif légal prescrit par le Livre~V du Code du Numérique permettant à tout usager d'exiger la suppression définitive et intégrale de son compte et de ses données personnelles.
+
+\item[Embedding (Plongement vectoriel)]
+Représentation mathématique d'un texte sous forme d'un vecteur numérique (768 dimensions pour le modèle Solon), traduisant son sens conceptuel.
+
+\item[Hallucination (IA)]
+Fait pour un grand modèle de langage de formuler une réponse factuellement ou juridiquement erronée avec une apparence de certitude.
+
+\item[Large Language Model (LLM)]
+Modèle d'intelligence artificielle entraîné sur de vastes corpus textuels pour comprendre et produire du langage naturel (ex.~: \textit{Gemma 3:1b}).
+
+\item[Numeris229]
+Plateforme d'information, d'exploration et d'assistance juridique intelligente dédiée au Code du Numérique béninois.
+
+\item[Recherche hybride]
+Mécanisme combinant la recherche sémantique dense (par vecteurs) et la recherche lexicale sparse (par mots-clés TF-IDF) pour garantir une extraction documentaire exhaustive.
+
+\item[RAG (Retrieval-Augmented Generation)]
+Architecture associant la recherche d'articles de loi officiels à la génération par un modèle de langage pour produire des réponses fiables et sourcées, sans hallucination.
+
+\end{description}
+
+
+\pagenumbering{arabic}
+\setcounter{page}{1}
+%%introduction
+\include{3-introduction}
+%\lhead[]{} \rhead[]{} \chead[]{}
+\selectlanguage{french}
+\fancyhead[L]{\tiny \leftmark}
+\fancyhead[R]{\scriptsize \rightmark}
+\fancyfoot[C]{\thepage}
+
+\chapter{Revue de Littérature}\label{chap:1}
+ \input{1-partie/1-fichier}
+ 
+ \chapter{Analyse, Conception et Choix techniques}\label{chap:2}
+ \input{2-partie/1-fichier}
+ 
+\chapter{Présentation, évaluation et perspectives}\label{chap:3}
+ \input{3-partie/1-fichier}
+ 
+% \include{perspectives}
+%%conclusion
+\include{4-conclusion}
+% 
+\lhead[]{} \rhead[]{} \chead[]{}
+
+%%biblio
+\nocite{*}
+\bibliographystyle{abbrv}
+\bibliography{biblio}
+
+
+
+%% webographie
+\cleardoublepage
+\include{Webographie}
+
+
+%\include{annexe}
+
+\newpage
+\tableofcontents
+
+\end{document}          

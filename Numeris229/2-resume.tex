@@ -1,0 +1,21 @@
+\resume
+\selectlanguage{french}
+\vspace*{-6cm}
+\begin{abstract}
+Chaque année, l'accès au code du numérique béninois, texte long et technique régissant les communications électroniques, la protection des données personnelles, le commerce électronique et la cybersécurité, reste difficile pour le citoyen comme pour l'étudiant, faute d'un outil permettant d'y localiser rapidement et fiablement une disposition précise. Cette situation est aggravée par l'existence de lois modificatrices, qui exposent tout lecteur du seul texte d'origine au risque de se fier à un article obsolète. Dans ce contexte, le présent travail propose la conception et l'implémentation de Numeris229, un assistant conversationnel intelligent fondé sur une architecture RAG (Retrieval-Augmented Generation), dont la contribution principale réside dans son ingénierie logicielle. La démarche retenue repose sur un pipeline d'ingestion documentaire reproductible (extraction, contrôle qualité, océrisation, consolidation du texte en vigueur avec ses lois modificatrices, découpage structuré en 629 articles), une indexation vectorielle dans ChromaDB avec le modèle d'embeddings Solon, un module de recherche combinant similarité sémantique et interrogation directe par référence d'article, ainsi qu'une architecture back-end modulaire exposée via une API REST, intégrant la gestion sécurisée des comptes utilisateurs. Le système garantit qu'aucune réponse n'est produite hors du périmètre du corpus indexé, limitant ainsi le risque d'hallucination. Les tests effectués démontrent la capacité du système à restituer des réponses précises et systématiquement sourcées à l'article, tant pour des questions formulées en langage naturel que pour des demandes portant sur un article précis. Cet outil constitue un levier d'accès au droit numérique pour les citoyens béninois, tout en illustrant une démarche de conception logicielle structurée, modulaire et testable pour les systèmes RAG appliqués au droit.
+
+\paragraph{}
+\textbf{Mots clés}: RAG (Génération augmentée par récupération), code du numérique, architecture logicielle, droit numérique béninois, assistant conversationnel, ChromaDB.
+\end{abstract}
+
+\newpage
+\thispagestyle{empty}
+\selectlanguage{english}
+\addcontentsline{toc}{chapter}{Abstract}
+\begin{abstract}
+
+Every year, access to Benin's digital code, a long and technical text governing electronic communications, personal data protection, electronic commerce, and cybersecurity, remains difficult for both citizens and students, due to the lack of a tool enabling quick and reliable retrieval of a specific provision. This situation is compounded by the existence of amending laws, which expose anyone consulting only the original text to the risk of relying on an outdated article. In this context, the present work proposes the design and implementation of Numeris229, an intelligent conversational assistant based on a Retrieval-Augmented Generation (RAG) architecture, whose main contribution lies in its software engineering. The approach adopted relies on a reproducible document ingestion pipeline (extraction, quality control, OCR processing, consolidation of the text in force together with its amending laws, structured segmentation into 629 articles), vector indexing in ChromaDB using the Solon embedding model, a retrieval module combining semantic similarity search with direct querying by article reference, and a modular back-end architecture exposed through a REST API, including secure user account management. The system ensures that no answer is generated outside the scope of the indexed corpus, thereby limiting the risk of hallucination. The tests conducted demonstrate the system's ability to provide accurate, consistently sourced responses at the article level, both for natural language questions and for requests concerning a specific article. This tool constitutes a lever for access to digital law for Beninese citizens, while illustrating a structured, modular, and testable software design approach for RAG systems applied to law.
+
+\paragraph{}
+\textbf{Key words}: RAG (Retrieval-Augmented Generation), digital code, software architecture, Beninese digital law, conversational assistant, ChromaDB.
+\end{abstract}

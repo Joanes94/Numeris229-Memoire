@@ -1,0 +1,59 @@
+\chapter*{Introduction Générale}
+\addcontentsline{toc}{chapter}{Introduction Générale}
+
+% ── 1. CONTEXTE ET JUSTIFICATION ─────────────────────────────
+\section*{ Contexte et justification}
+\addcontentsline{toc}{section}{Contexte et justification}
+
+L'accès au droit demeure un enjeu majeur pour l'efficacité des démarches administratives et le renforcement de l'État de droit en République du Bénin. Le code du numérique, institué par la loi n° 2017-20 du 20 avril 2018, modifiée par la loi n° 2020-35 du 06 janvier 2021, régit des domaines aussi variés que les communications électroniques, la protection des données à caractère personnel, le commerce électronique et la cybercriminalité. Ce texte, long de plus de 600 articles répartis en plusieurs livres, titres et chapitres, reste cependant peu consulté par les citoyens, les étudiants et même certains professionnels, en raison de sa longueur, de sa technicité et de la difficulté à y localiser rapidement une disposition précise.
+
+Parallèlement, les avancées récentes de l'intelligence artificielle, notamment les grands modèles de langage (LLM) couplés à des architectures de génération augmentée par récupération (RAG), offrent la possibilité de concevoir des systèmes capables de répondre à des questions en langage naturel à partir d'un corpus documentaire fiable, en citant systématiquement leurs sources. Ces technologies, déjà explorées pour d'autres contextes administratifs et juridiques, n'ont cependant pas encore été appliquées de façon structurée au code du numérique béninois.
+
+C'est dans cette perspective que s'inscrit le projet Numeris229, qui se distingue par son ancrage en génie logiciel : au-delà de la seule performance du modèle d'intelligence artificielle, l'enjeu central de ce travail est de concevoir une architecture logicielle robuste, modulaire et maintenable, capable d'orchestrer l'ensemble de la chaîne applicative — ingestion documentaire, indexation vectorielle, recherche, génération de réponses, gestion des comptes utilisateurs et exposition via une interface de programmation — tout en garantissant la fiabilité, la traçabilité des sources et la sécurité des données.
+
+
+% ── 2. PROBLÉMATIQUE ─────────────────────────────────────────
+\section*{ Problématique}
+\addcontentsline{toc}{section}{Problématique}
+
+L'accès au code du numérique se heurte à plusieurs obstacles pratiques. D'une part, la recherche manuelle d'un article précis dans un document de plusieurs centaines de pages est fastidieuse et chronophage, en particulier lorsque l'utilisateur ne connaît ni le numéro ni la terminologie exacte de l'article recherché. D'autre part, l'existence de lois modificatrices, telle que la loi n° 2020-35 qui amende certains articles du texte initial de 2017-20, complique davantage la tâche : un citoyen consultant uniquement le texte d'origine risque de se fier à une disposition obsolète.
+
+Le défi technique consiste donc à concevoir un système capable d'interpréter des questions formulées en langage naturel, de retrouver avec précision les articles pertinents dans un corpus consolidé et à jour, et de produire une réponse fiable, sourcée et compréhensible, sans jamais produire d'information inventée. Au-delà du seul aspect algorithmique, ce défi est également et surtout un défi d'ingénierie logicielle : il s'agit de structurer un pipeline de traitement documentaire reproductible (extraction, océrisation, consolidation, découpage, indexation), de concevoir une architecture back-end modulaire et sécurisée (gestion des comptes, authentification, historique des échanges), et de garantir la qualité et la testabilité de l'ensemble du système.
+
+
+
+
+% ── 3. OBJECTIF GÉNÉRAL ──────────────────────────────────────
+\section*{Objectif général}
+\addcontentsline{toc}{section}{Objectif général}
+
+L'objectif général de ce travail est de concevoir et d'implémenter Numeris229, une architecture logicielle pour un assistant conversationnel intelligent basé sur une approche de génération augmentée par récupération (RAG), permettant de répondre de façon fiable et sourcée à des questions portant sur le code du numérique en République du Bénin.
+
+
+% ── 4. OBJECTIFS SPÉCIFIQUES ─────────────────────────────────
+\section*{ Objectifs spécifiques}
+\addcontentsline{toc}{section}{ Objectifs spécifiques}
+
+Pour atteindre cet objectif général, les objectifs spécifiques sont les
+suivants :
+
+\begin{itemize}
+
+    \item[-] Mettre en place un pipeline d'ingestion documentaire reproductible pour le code du numérique, de l'extraction à la consolidation du texte en vigueur, intégrant ses lois modificatrices et un découpage structuré par article ;
+
+    \item[-] Développer un pipeline RAG combinant indexation vectorielle, recherche sémantique et génération de réponses sourcées, capable de refuser de répondre aux questions hors périmètre du corpus ;
+
+    \item[-] Concevoir une architecture back-end modulaire et sécurisée, exposée via une API REST, intégrant la gestion des comptes utilisateurs et l'historique des échanges ;
+
+    \item[-] Développer une interface utilisateur permettant d'interagir avec l'assistant de façon simple et accessible ;
+
+    \item[-] Évaluer la fiabilité et la pertinence du système par la mise en place de tests automatisés couvrant les principaux scénarios d'utilisation.
+
+\end{itemize}
+
+
+% ── 5. STRUCTURE DU MÉMOIRE ──────────────────────────────────
+\section*{Structure du mémoire}
+\addcontentsline{toc}{section}{Structure du mémoire}
+
+Ce mémoire présente la démarche de conception de Numeris229 en trois parties. Le Chapitre 1 analyse l'état de l'art des technologies d'intelligence artificielle conversationnelle et des solutions existantes d'accès au droit, et justifie l'approche technique retenue. Le Chapitre 2 détaille l'architecture logicielle et les choix de conception du système, du pipeline d'ingestion documentaire à la gestion des comptes utilisateurs. Le Chapitre 3 présente l'analyse des résultats obtenus et les limites du système.
