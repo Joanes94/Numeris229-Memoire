@@ -1,0 +1,434 @@
+\documentclass[aspectratio=169,10pt]{beamer}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[french]{babel}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{tabularx}
+\usepackage{ragged2e}
+
+\definecolor{navy}{HTML}{12304A}
+\definecolor{teal}{HTML}{087E83}
+\definecolor{gold}{HTML}{D49A22}
+\definecolor{pale}{HTML}{EFF5F7}
+\definecolor{muted}{HTML}{5B6B78}
+
+\usetheme{Madrid}
+\setbeamertemplate{navigation symbols}{}
+\setbeamertemplate{headline}{}
+\setbeamercolor{structure}{fg=teal}
+\setbeamercolor{palette primary}{bg=navy,fg=white}
+\setbeamercolor{palette secondary}{bg=teal,fg=white}
+\setbeamercolor{palette tertiary}{bg=navy,fg=white}
+\setbeamercolor{frametitle}{bg=navy,fg=white}
+\setbeamercolor{title}{fg=navy}
+\setbeamercolor{block title}{bg=teal,fg=white}
+\setbeamercolor{block body}{bg=pale,fg=navy}
+\setbeamercolor{alerted text}{fg=gold}
+\setbeamerfont{frametitle}{series=\bfseries}
+\setbeamersize{text margin left=0.55cm,text margin right=0.55cm}
+\setbeamertemplate{footline}{%
+  \leavevmode%
+  \hbox{%
+    \begin{beamercolorbox}[wd=.78\paperwidth,ht=2.5ex,dp=1ex,leftskip=1em]{author in head/foot}%
+      \color{white}\insertshorttitle
+    \end{beamercolorbox}%
+    \begin{beamercolorbox}[wd=.22\paperwidth,ht=2.5ex,dp=1ex,center]{date in head/foot}%
+      \color{white}\insertframenumber{} / \inserttotalframenumber
+    \end{beamercolorbox}%
+  }%
+}
+
+\newcommand{\shot}[2]{%
+  \begin{minipage}[t]{\linewidth}
+    \centering
+    \includegraphics[width=\linewidth,height=1.18in,keepaspectratio]{images/C3/#1.png}\par
+    \vspace{0.15em}{\scriptsize\color{muted}#2}
+  \end{minipage}%
+}
+\newcommand{\platformshot}[2]{%
+  \begin{minipage}[t]{\linewidth}
+    \centering
+    \includegraphics[width=\linewidth,height=1.18in,keepaspectratio]{#1}\par
+    \vspace{0.15em}{\scriptsize\color{muted}#2}
+  \end{minipage}%
+}
+
+\title[Assistant juridique béninois]{Conception et implémentation d'un assistant conversationnel intelligent pour la compréhension du Code du Numérique en République du Bénin}
+\author{Yélian Joanès Domicov \textbf{AZON}}
+\institute{Licence en Informatique — Génie Logiciel\\Institut de Formation et de Recherche en Informatique (IFRI)\\Université d'Abomey-Calavi}
+\date{Année académique 2026--2027}
+
+\begin{document}
+
+\begin{frame}[plain]
+  \centering
+  \vspace{0.25cm}
+  \includegraphics[height=0.78cm]{images/logoUAC1.png}\hspace{0.7cm}
+  \includegraphics[height=0.78cm]{images/logoIfri.png}
+  \vspace{0.65cm}
+  {\usebeamerfont{title}\color{navy}\LARGE\bfseries\inserttitle\par}
+  \vspace{0.45cm}
+  {\large\color{teal}Mémoire de fin de cycle — présentation de soutenance\par}
+  \vfill
+  {\large\insertauthor\par}
+  \vspace{0.2cm}
+  {\normalsize Encadrant : Armand \textbf{ACCROMBESSI}\par}
+  \vspace{0.3cm}
+  {\small\insertinstitute\par}
+  \vspace{0.3cm}
+  {\small\color{muted}\insertdate\par}
+\end{frame}
+
+\begin{frame}{Le problème en une idée}
+  \begin{block}{Accéder au droit, rapidement et sans déformer la loi}
+    Le Code du Numérique béninois est vaste, technique et amendé. Retrouver la bonne disposition dans plusieurs centaines d'articles reste difficile pour un citoyen, un étudiant ou une petite entreprise.
+  \end{block}
+  \vspace{0.35cm}
+  \begin{columns}[T,onlytextwidth]
+    \begin{column}{.31\textwidth}
+      \begin{block}{Un corpus dense}
+        Plus de 600 articles organisés en livres, titres et chapitres.
+      \end{block}
+    \end{column}
+    \begin{column}{.31\textwidth}
+      \begin{block}{Des textes modifiés}
+        La Loi N° 2020-35 modifie la Loi N° 2017-20 : consulter une version ancienne peut induire en erreur.
+      \end{block}
+    \end{column}
+    \begin{column}{.31\textwidth}
+      \begin{block}{Un enjeu de fiabilité}
+        En matière juridique, une réponse plausible mais non sourcée peut avoir des conséquences concrètes.
+      \end{block}
+    \end{column}
+  \end{columns}
+  \vspace{0.2cm}
+  \centering\textbf{Question de recherche :} comment rendre le Code consultable en langage naturel, avec des réponses vérifiables à l'article ?
+\end{frame}
+
+\begin{frame}{Objectifs et contribution du mémoire}
+  \begin{columns}[T,onlytextwidth]
+    \begin{column}{.48\textwidth}
+      \begin{block}{Objectif général}
+        Concevoir et réaliser un assistant conversationnel basé sur le RAG, consacré au Code du Numérique béninois.
+      \end{block}
+      \begin{block}{Objectifs spécifiques}
+        \begin{itemize}\setlength\itemsep{0.35em}
+          \item Consolider et structurer le corpus juridique.
+          \item Retrouver les dispositions pertinentes par question ou référence d'article.
+          \item Générer une explication courte, liée à des sources officielles.
+          \item Développer une plateforme web sécurisée et testable.
+        \end{itemize}
+      \end{block}
+    \end{column}
+    \begin{column}{.48\textwidth}
+      \begin{block}{Résultat livré}
+        \begin{itemize}\setlength\itemsep{0.4em}
+          \item Un explorateur du Code et un assistant conversationnel.
+          \item Un pipeline RAG hybride : recherche dense, recherche lexicale, reranking et génération.
+          \item Des comptes, historiques, signalements et fonctions d'administration.
+          \item Une évaluation fonctionnelle et documentaire.
+        \end{itemize}
+      \end{block}
+      \centering\large\color{teal}\textbf{Un accès plus simple,\newline une réponse traçable.}
+    \end{column}
+  \end{columns}
+\end{frame}
+
+\begin{frame}{Solutions existantes : outils juridiques et professionnels}
+  \begin{columns}[T,onlytextwidth]
+    \begin{column}{.32\textwidth}\platformshot{images/C1/LawPavillon.jpg}{LawPavilion — recherche juridique, Nigeria}\end{column}
+    \begin{column}{.32\textwidth}\platformshot{images/C1/Timi.jpg}{TIMI AI — assistant juridique, Nigeria}\end{column}
+    \begin{column}{.32\textwidth}\platformshot{images/C1/Wakili CRM.jpg}{Wakili.org — assistant citoyen, Kenya}\end{column}
+  \end{columns}
+  \vspace{0.45cm}
+  \begin{block}{Références également étudiées}
+    Jurisprudence.cc (espace OHADA), Juribot, JuridiqueIA et AideJuridique.ai. Le mémoire souligne que ces outils se distinguent par leur juridiction, leur public cible ou leur périmètre fonctionnel.
+  \end{block}
+\end{frame}
+
+\begin{frame}{Solutions existantes : assistants citoyens et administratifs}
+  \begin{columns}[T,onlytextwidth]
+    \begin{column}{.32\textwidth}\platformshot{images/C1/JusticePadi.png}{JusticePadi — assistance juridique, Nigeria}\end{column}
+    \begin{column}{.32\textwidth}\platformshot{images/C1/EMY1.png}{EMY 101 — Côte d'Ivoire}\end{column}
+    \begin{column}{.32\textwidth}\platformshot{images/C1/EMY2.png}{Interface du service EMY 101}\end{column}
+  \end{columns}
+  \vspace{0.45cm}
+  \begin{alertblock}{Initiative béninoise}
+    GPT BJ facilite le dialogue sur des textes béninois. Le mémoire identifie un besoin complémentaire : des réponses appuyées sur le Code du Numérique consolidé et référencées à l'article.
+  \end{alertblock}
+\end{frame}
+
+\begin{frame}{Positionnement : un assistant spécialisé sur le droit numérique béninois}
+  \begin{columns}[T,onlytextwidth]
+    \begin{column}{.47\textwidth}
+      \begin{block}{Constat de l'étude comparative}
+        Les outils existants ciblent d'autres juridictions, des publics professionnels ou des démarches administratives. Le mémoire identifie un besoin de réponses adossées au Code béninois consolidé et sourcées au niveau de l'article.
+      \end{block}
+    \end{column}
+    \begin{column}{.49\textwidth}
+      \begin{block}{Valeur ajoutée visée}
+        \begin{itemize}\setlength\itemsep{0.35em}
+          \item Périmètre explicite : Code du Numérique du Bénin.
+          \item Recherche par langage naturel ou numéro d'article.
+          \item Citations légales et extraits consultables.
+          \item Gouvernance par rôles, signalements et réindexation.
+        \end{itemize}
+      \end{block}
+    \end{column}
+  \end{columns}
+  \begin{alertblock}{Corpus}
+    Loi N° 2017-20, modifiée par la Loi N° 2020-35 ; le corpus du projet est décrit dans le mémoire comme couvrant 629 articles.
+  \end{alertblock}
+\end{frame}
+
+\begin{frame}{Architecture logicielle : du navigateur aux services métier}
+  \begin{columns}[T,onlytextwidth]
+    \begin{column}{.21\textwidth}
+      \begin{block}{Interface web}
+        Next.js 14\\React 18\\Tailwind CSS\\\small Parcours citoyen, explorateur et chat
+      \end{block}
+    \end{column}
+    \begin{column}{.04\textwidth}\centering\vspace{1.2cm}{\large\color{gold}$\rightarrow$}\end{column}
+    \begin{column}{.21\textwidth}
+      \begin{block}{API métier}
+        FastAPI / Python\\Pydantic\\JWT + RBAC\\\small Authentification, orchestration, administration
+      \end{block}
+    \end{column}
+    \begin{column}{.04\textwidth}\centering\vspace{1.2cm}{\large\color{gold}$\rightarrow$}\end{column}
+    \begin{column}{.21\textwidth}
+      \begin{block}{Données}
+        PostgreSQL\\Neon.tech\\SQLAlchemy\\\small Comptes, conversations, messages, métriques
+      \end{block}
+    \end{column}
+    \begin{column}{.04\textwidth}\centering\vspace{1.2cm}{\large\color{gold}$\rightarrow$}\end{column}
+    \begin{column}{.16\textwidth}
+      \begin{block}{IA locale}
+        Pipeline RAG\\Ollama\\Gemma 3 (1B)
+      \end{block}
+    \end{column}
+  \end{columns}
+  \vspace{0.4cm}
+  \begin{block}{Sécurité et déploiement}
+    Mots de passe hachés avec bcrypt, jetons JWT, contrôle d'accès par rôle, suppression en cascade ; frontend hébergé côté web, API conteneurisée et base PostgreSQL managée.
+  \end{block}
+\end{frame}
+
+\begin{frame}[plain]
+  \centering\includegraphics[width=.96\paperwidth,height=.9\paperheight,keepaspectratio]{images/C2/DCU.pdf}
+\end{frame}
+
+\begin{frame}{Diagramme de classes : entités et relations}
+  \centering\includegraphics[width=.94\textwidth,height=.78\textheight,keepaspectratio]{images/C2/DC.pdf}
+  \vspace{0.1cm}\par\scriptsize Utilisateur, Conversation et Message ; Article et ChunkDocumentaire ; services et associations métier.
+\end{frame}
+
+\begin{frame}{Diagramme de séquence : consultation juridique}
+  \centering\includegraphics[width=.98\textwidth,height=.78\textheight,keepaspectratio]{images/C2/DS.pdf}
+  \vspace{0.1cm}\par\scriptsize Authentification, recherche, reranking, génération ou repli, persistance et restitution.
+\end{frame}
+
+\begin{frame}{Diagramme d'activités : déroulement du traitement}
+  \begin{columns}[T,onlytextwidth]
+    \begin{column}{.48\textwidth}
+      \centering\includegraphics[width=\linewidth,height=.78\textheight,keepaspectratio]{images/C2/DA.pdf}
+    \end{column}
+    \begin{column}{.48\textwidth}
+      \begin{block}{Lecture du flux}
+        \begin{enumerate}\setlength\itemsep{0.45em}
+          \item La requête et l'identité sont vérifiées.
+          \item Le système choisit la recherche directe ou hybride.
+          \item Le reranker évalue les articles candidats.
+          \item Le garde-fou décide de générer, refuser ou activer le repli.
+          \item La réponse et les métriques sont enregistrées.
+        \end{enumerate}
+      \end{block}
+    \end{column}
+  \end{columns}
+\end{frame}
+
+\begin{frame}[plain]
+  \centering\includegraphics[width=.92\paperwidth,height=.91\paperheight,keepaspectratio]{images/C2/Pipeline_RAG.pdf}
+\end{frame}
+
+\begin{frame}{Pipeline RAG : comment une réponse est produite}
+  \begin{columns}[T,onlytextwidth]
+    \begin{column}{.18\textwidth}\begin{block}{1. Corpus}\small Texte consolidé, articles et métadonnées hiérarchiques.\end{block}\end{column}
+    \begin{column}{.04\textwidth}\centering\vspace{1cm}{\Large\color{gold}$\rightarrow$}\end{column}
+    \begin{column}{.2\textwidth}\begin{block}{2. Recherche}\small Article direct ou recherche dense Solon + lexicale TF--IDF.\end{block}\end{column}
+    \begin{column}{.04\textwidth}\centering\vspace{1cm}{\Large\color{gold}$\rightarrow$}\end{column}
+    \begin{column}{.2\textwidth}\begin{block}{3. Classement}\small Fusion pondérée, 15 candidats, puis cross-encoder CamemBERT.\end{block}\end{column}
+    \begin{column}{.04\textwidth}\centering\vspace{1cm}{\Large\color{gold}$\rightarrow$}\end{column}
+    \begin{column}{.2\textwidth}\begin{block}{4. Réponse}\small Gemma 3 sous Ollama ; réponse sourcée ou refus / repli.\end{block}\end{column}
+  \end{columns}
+  \vspace{0.4cm}
+  \begin{alertblock}{Recherche hybride}
+    Solon : embeddings juridiques denses en 768 dimensions. TF--IDF : correspondance lexicale. Après normalisation min--max : 55\% sémantique et 45\% lexicale ; CamemBERT conserve ensuite les 2 à 3 articles les plus pertinents.
+  \end{alertblock}
+\end{frame}
+
+\begin{frame}{Garde-fous : privilégier la fidélité juridique}
+  \begin{columns}[T,onlytextwidth]
+    \begin{column}{.32\textwidth}
+      \begin{block}{Hors périmètre}
+        Si le meilleur score est inférieur ou égal à $-8{,}0$, le système bloque la génération et indique que l'information n'est pas trouvée dans le Code.
+      \end{block}
+    \end{column}
+    \begin{column}{.32\textwidth}
+      \begin{block}{Sources explicites}
+        La réponse doit citer les articles et livres retenus ; les extraits officiels restent accessibles dans l'interface.
+      \end{block}
+    \end{column}
+    \begin{column}{.32\textwidth}
+      \begin{block}{Mode dégradé}
+        Si Ollama est indisponible ou dépasse 120 secondes, le système restitue le texte officiel de l'article sans le reformuler.
+      \end{block}
+    \end{column}
+  \end{columns}
+  \vspace{0.4cm}
+  \centering\Large\color{teal}\textbf{L'assistant n'est pas un substitut à un professionnel du droit.}
+\end{frame}
+
+\begin{frame}{Réalisation : page d'accueil et découverte}
+  \begin{columns}[T,onlytextwidth]
+    \begin{column}{.32\textwidth}\shot{1}{En-tête et navigation}\end{column}
+    \begin{column}{.32\textwidth}\shot{3}{Fonctionnalités et garanties}\end{column}
+    \begin{column}{.32\textwidth}\shot{4}{Matières et cas d'usage — volet 1}\end{column}
+  \end{columns}
+  \vspace{0.3cm}
+  \begin{columns}[T,onlytextwidth]
+    \begin{column}{.32\textwidth}\shot{5}{Matières et cas d'usage — volet 2}\end{column}
+    \begin{column}{.32\textwidth}\shot{6}{Pied de page et mentions légales}\end{column}
+    \begin{column}{.32\textwidth}\centering\vspace{0.7cm}\large\color{navy}Une entrée claire vers les textes et l'assistant.\end{column}
+  \end{columns}
+\end{frame}
+
+\begin{frame}{Réalisation : comptes et espace personnel}
+  \begin{columns}[T,onlytextwidth]
+    \begin{column}{.32\textwidth}\shot{7}{Inscription d'un utilisateur}\end{column}
+    \begin{column}{.32\textwidth}\shot{8}{Connexion sécurisée}\end{column}
+    \begin{column}{.32\textwidth}\shot{16}{Profil et droit à l'effacement}\end{column}
+  \end{columns}
+  \vspace{0.4cm}
+  \begin{block}{Parcours et sécurité}
+    Création de compte, authentification, profil, historique privé et possibilité de supprimer définitivement ses données.
+  \end{block}
+\end{frame}
+
+\begin{frame}{Réalisation : explorateur du Code du Numérique}
+  \begin{columns}[T,onlytextwidth]
+    \begin{column}{.32\textwidth}\shot{13}{Recherche dynamique et pagination}\end{column}
+    \begin{column}{.32\textwidth}\shot{14}{Consultation intégrale d'un article}\end{column}
+    \begin{column}{.32\textwidth}\shot{15}{Modifications législatives et accès au chat}\end{column}
+  \end{columns}
+  \vspace{0.35cm}
+  \centering\small Parcourir, filtrer et ouvrir les dispositions légales sans perdre leur référence.
+\end{frame}
+
+\begin{frame}{Réalisation : consultation conversationnelle}
+  \begin{columns}[T,onlytextwidth]
+    \begin{column}{.32\textwidth}\shot{10}{Accueil du chat et historique}\end{column}
+    \begin{column}{.32\textwidth}\shot{11}{Réponse avec sources dépliables}\end{column}
+    \begin{column}{.32\textwidth}\shot{12}{Extraits officiels vérifiés}\end{column}
+  \end{columns}
+  \vspace{0.35cm}
+  \centering\small La réponse est reliée aux textes et peut être lue grâce à la synthèse vocale intégrée.
+\end{frame}
+
+\begin{frame}{Réalisation : gouvernance et observabilité}
+  \begin{columns}[T,onlytextwidth]
+    \begin{column}{.48\textwidth}\shot{18}{Tableau de bord et métriques RAG}\end{column}
+    \begin{column}{.48\textwidth}\shot{19}{Comptes et rôles utilisateur}\end{column}
+  \end{columns}
+  \vspace{0.3cm}
+  \centering\small Les fonctions sensibles sont réservées à l'administrateur par contrôle RBAC.
+\end{frame}
+
+\begin{frame}{Réalisation : modération et maintenance du corpus}
+  \begin{columns}[T,onlytextwidth]
+    \begin{column}{.48\textwidth}\shot{20}{Traitement des signalements}\end{column}
+    \begin{column}{.48\textwidth}\shot{21}{Supervision et réindexation à chaud}\end{column}
+  \end{columns}
+  \vspace{0.3cm}
+  \centering\small Les retours des usagers et les évolutions du Code alimentent la gouvernance documentaire.
+\end{frame}
+
+\begin{frame}{Validation fonctionnelle et sécurité}
+  \begin{columns}[T,onlytextwidth]
+    \begin{column}{.48\textwidth}
+      \begin{block}{API REST}
+        \centering{\Huge\color{teal}\textbf{21 / 21}}\\[0.2em]
+        \small Routes fondamentales testées avec succès : authentification, comptes, conversations, RAG, signalements et administration.
+      \end{block}
+    \end{column}
+    \begin{column}{.48\textwidth}
+      \begin{block}{Scénarios vérifiés}
+        \begin{itemize}\setlength\itemsep{0.4em}
+          \item Identifiants invalides et jeton absent : accès refusé.
+          \item Citoyen vers route admin : HTTP 403.
+          \item Isolation des conversations entre utilisateurs.
+          \item Suppression du compte et de ses données associées.
+        \end{itemize}
+      \end{block}
+    \end{column}
+  \end{columns}
+\end{frame}
+
+\begin{frame}{Évaluation du RAG : pertinence des résultats}
+  \begin{columns}[T,onlytextwidth]
+    \begin{column}{.31\textwidth}\begin{block}{10 requêtes}\centering\Large\textbf{échantillon}\par\small Questions représentatives du droit numérique béninois.\end{block}\end{column}
+    \begin{column}{.31\textwidth}\begin{block}{Similarité moyenne}\centering\Huge\color{teal}\textbf{0,876}\par\small Cosinus Solon ; chaque score dépasse 0,80.\end{block}\end{column}
+    \begin{column}{.31\textwidth}\begin{block}{Articles pertinents}\centering\Huge\color{teal}\textbf{10 / 10}\par\small Pertinence élevée et références vérifiées manuellement.\end{block}\end{column}
+  \end{columns}
+  \vspace{0.35cm}
+  \begin{block}{Exemples issus de l'évaluation}
+    Diffamation électronique : art. 550, cosinus 0,91 ; signature électronique : art. 210--211, cosinus 0,93 ; droit d'accès aux données : art. 415, cosinus 0,85.
+  \end{block}
+  \begin{alertblock}{Interprétation}
+    Dans l'échantillon de dix requêtes du mémoire, les références citées sont jugées conformes ; aucune hallucination juridique n'a été observée.
+  \end{alertblock}
+\end{frame}
+
+\begin{frame}{Limites identifiées et perspectives}
+  \begin{columns}[T,onlytextwidth]
+    \begin{column}{.47\textwidth}
+      \begin{block}{Limites du prototype}
+        \begin{itemize}\setlength\itemsep{0.35em}
+          \item Corpus centré sur les Lois N° 2017-20 et N° 2020-35.
+          \item Décrets, décisions et jurisprudence non intégrés.
+          \item Accès principalement par navigateur.
+          \item Pas encore de dialogue dans les langues nationales.
+        \end{itemize}
+      \end{block}
+    \end{column}
+    \begin{column}{.49\textwidth}
+      \begin{block}{Feuille de route proposée}
+        \begin{itemize}\setlength\itemsep{0.35em}
+          \item Enrichir et maintenir le corpus juridique.
+          \item Accès omnicanal : WhatsApp et Telegram.
+          \item Support vocal et langues nationales (Fongbé, Yoruba, etc.).
+          \item Cache, accélération GPU et observabilité de production.
+        \end{itemize}
+      \end{block}
+    \end{column}
+  \end{columns}
+\end{frame}
+
+\begin{frame}[plain]
+  \centering
+  \vspace{0.4cm}
+  {\Huge\color{navy}\bfseries En conclusion\par}
+  \vspace{0.45cm}
+  \begin{beamercolorbox}[rounded=true,sep=1.2em,wd=.82\paperwidth,center]{block body}
+    \Large Un assistant dédié au Code du Numérique béninois, combinant recherche hybride, réponses sourcées, garde-fous et gouvernance logicielle.
+  \end{beamercolorbox}
+  \vspace{0.6cm}
+  {\large\color{teal}\textbf{Merci pour votre attention}\par}
+  \vspace{0.4cm}
+  {\normalsize Questions ?\par}
+  \vfill
+  {\scriptsize Références de cadrage : Lois N° 2017-20 et N° 2020-35 ; Lewis et al. (2020), \textit{Retrieval-Augmented Generation for Knowledge-Intensive NLP Tasks}.\par}
+\end{frame}
+
+\end{document}
